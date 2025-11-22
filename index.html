@@ -152,12 +152,16 @@
     </div>
   </div>
 
-  <script>
-      const daysData = {
+ <script>
+  // ============================
+  // 🔴 SEZIONE DA MODIFICARE
+  // ============================
+
+  const daysData = {
     1:  { img: "img/1.jpg",  text: "Testo personalizzato per il giorno 1" },
     2:  { img: "img/2.jpg",  text: "Testo per il giorno 2" },
     3:  { img: "img/3.jpg",  text: "Frase speciale del giorno 3" },
-    4:  { img: "img/4.jpg",  text: "Testo 4" },
+    4:  { img: "img/4.jpg",  text: "Testo giorno 4" },
     5:  { img: "img/5.jpg",  text: "Testo giorno 5" },
     6:  { img: "img/6.jpg",  text: "Testo giorno 6" },
     7:  { img: "img/7.jpg",  text: "Testo giorno 7" },
@@ -179,107 +183,50 @@
     23: { img: "img/23.jpg", text: "Testo giorno 23" },
     24: { img: "img/24.jpg", text: "Testo giorno 24" }
   };
-    // --- ELEMENTI ---
-    const now = new Date();
-    const today = now.getDate(); // giorno corrente del mese
-    const calendar = document.getElementById('calendar');
-    const modal = document.getElementById('modal');
-    const modalImg = document.getElementById('modalImg');
-    const modalText = document.getElementById('modalText');
-    const closeBtn = document.getElementById('closeBtn');
 
-    // --- COSTRUZIONE CALENDARIO ---
-    // Popoliamo images e creiamo le caselle CORRETTAMENTE dentro il ciclo
-    for (let i = 1; i <= 24; i++) {
-      images[i] = {
-        img: `img/${i}.jpg`,
-        text: `Frase del giorno ${i}`
-      };
+  // ============================
+  // 🔵 CODICE AUTOMATICO (NON TOCCARE)
+  // ============================
 
-      const cell = document.createElement('div');
-      cell.className = 'day' + (i > today ? ' locked' : '');
-      cell.textContent = i;
-      cell.setAttribute('role', 'button');
-      cell.setAttribute('tabindex', '0');
-      cell.setAttribute('aria-label', `Giorno ${i}`);
+  const now = new Date();
+  const today = now.getDate();
+  const calendar = document.getElementById('calendar');
+  const modal = document.getElementById('modal');
+  const modalImg = document.getElementById('modalImg');
+  const modalText = document.getElementById('modalText');
+  const closeBtn = document.getElementById('closeBtn');
 
-      if (i <= today) {
-        cell.addEventListener('click', () => openModal(i));
-        cell.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') openModal(i); });
-      } else {
-        cell.addEventListener('click', () => {
-          // messaggio per i giorni futuri
-          alert('Non essere frettolosa, la magia del Natale ha i suoi tempi!');
-        });
-        cell.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') alert('Non essere frettolosa, la magia del Natale ha i suoi tempi!'); });
-      }
+  // CREA IL CALENDARIO
+  for (let i = 1; i <= 24; i++) {
+    const cell = document.createElement('div');
+    const locked = i > today;
 
-      calendar.appendChild(cell);
+    cell.className = 'day' + (locked ? ' locked' : '');
+    cell.textContent = i;
+
+    if (!locked) {
+      cell.addEventListener('click', () => openModal(i));
+    } else {
+      cell.addEventListener('click', () =>
+        alert("Non essere frettolosa, la magia del Natale ha i suoi tempi!")
+      );
     }
 
-    // --- FUNZIONI MODALE ---
-    function openModal(day) {
-      const data = images[day] || {};
-      // fallback se immagine non esiste: non impostare src, o impostare una placeholder
-      modalImg.src = '';
-      modalImg.alt = `Immagine del giorno ${day}`;
+    calendar.appendChild(cell);
+  }
 
-      // prova a caricare l'immagine e mostrare il testo
-      const imgUrl = data.img || '';
-      if (imgUrl) {
-        // carica immagine con gestione errori
-        modalImg.src = imgUrl;
-        modalImg.onerror = () => {
-          modalImg.style.display = 'none';
-        };
-        modalImg.onload = () => {
-          modalImg.style.display = 'block';
-        };
-      } else {
-        modalImg.style.display = 'none';
-      }
+  // MODALE
+  function openModal(day) {
+    const data = daysData[day];
+    modalImg.src = data.img;
+    modalText.textContent = data.text;
 
-      modalText.textContent = data.text || '';
-      modal.style.display = 'flex';
-      modal.setAttribute('aria-hidden', 'false');
-    }
+    modal.style.display = 'flex';
+  }
 
-    function closeModal() {
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden', 'true');
-      modalImg.src = '';
-    }
+  closeBtn.addEventListener('click', () => modal.style.display = 'none');
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+</script>
 
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
-
-    // --- NEVE ---
-    function createSnow() {
-      const snowflake = document.createElement('div');
-      snowflake.className = 'snowflake';
-      snowflake.textContent = '❄';
-      snowflake.style.left = Math.random() * 100 + 'vw';
-      snowflake.style.fontSize = (Math.random() * 20 + 8) + 'px';
-      snowflake.style.animationDuration = (Math.random() * 8 + 6) + 's';
-      snowflake.style.opacity = (Math.random() * 0.6 + 0.4);
-
-      document.body.appendChild(snowflake);
-
-      // rimuovi dopo fine animazione (valore > durata animation)
-      setTimeout(() => {
-        if (snowflake && snowflake.parentNode) snowflake.parentNode.removeChild(snowflake);
-      }, 16000);
-    }
-
-    // avvia la neve (frequenza moderata)
-    const snowInterval = setInterval(createSnow, 300);
-
-    // --- NOTE per l'utente su come sostituire immagini e testi ---
-    // 1) crea una cartella "img" accanto a questo file
-    // 2) inserisci le immagini nominate 1.jpg 2.jpg ... 24.jpg
-    // 3) per testi personalizzati, modifica l'oggetto `images` qui sopra (es. images[1].text = "Ciao!")
-
-  </script>
 </body>
 </html>
