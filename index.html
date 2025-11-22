@@ -140,7 +140,7 @@
 <body>
   <div class="overlay"></div>
 
-  <h1>🎄Il nostro Calendario dell'Avvento 🎄</h1>
+  <h1>🎄Calendario dell'Avvento 🎄</h1>
 
   <div class="grid" id="calendar" aria-label="Calendario dell'Avvento"></div>
 
@@ -153,10 +153,32 @@
   </div>
 
   <script>
-    // --- DATI ---
-    // images: mappa giorno -> {img, text}
-    const images = {};
-
+      const daysData = {
+    1:  { img: "img/1.jpg",  text: "Testo personalizzato per il giorno 1" },
+    2:  { img: "img/2.jpg",  text: "Testo per il giorno 2" },
+    3:  { img: "img/3.jpg",  text: "Frase speciale del giorno 3" },
+    4:  { img: "img/4.jpg",  text: "Testo 4" },
+    5:  { img: "img/5.jpg",  text: "Testo giorno 5" },
+    6:  { img: "img/6.jpg",  text: "Testo giorno 6" },
+    7:  { img: "img/7.jpg",  text: "Testo giorno 7" },
+    8:  { img: "img/8.jpg",  text: "Testo giorno 8" },
+    9:  { img: "img/9.jpg",  text: "Testo giorno 9" },
+    10: { img: "img/10.jpg", text: "Testo giorno 10" },
+    11: { img: "img/11.jpg", text: "Testo giorno 11" },
+    12: { img: "img/12.jpg", text: "Testo giorno 12" },
+    13: { img: "img/13.jpg", text: "Testo giorno 13" },
+    14: { img: "img/14.jpg", text: "Testo giorno 14" },
+    15: { img: "img/15.jpg", text: "Testo giorno 15" },
+    16: { img: "img/16.jpg", text: "Testo giorno 16" },
+    17: { img: "img/17.jpg", text: "Testo giorno 17" },
+    18: { img: "img/18.jpg", text: "Testo giorno 18" },
+    19: { img: "img/19.jpg", text: "Testo giorno 19" },
+    20: { img: "img/20.jpg", text: "Testo giorno 20" },
+    21: { img: "img/21.jpg", text: "Testo giorno 21" },
+    22: { img: "img/22.jpg", text: "Testo giorno 22" },
+    23: { img: "img/23.jpg", text: "Testo giorno 23" },
+    24: { img: "img/24.jpg", text: "Testo giorno 24" }
+  };
     // --- ELEMENTI ---
     const now = new Date();
     const today = now.getDate(); // giorno corrente del mese
